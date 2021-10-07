@@ -1,4 +1,7 @@
 import cv2
+import requests
+from flask import Flask
+from markupsafe import escape
 
 # Import some constants
 SKIN_PARTICIPANT = cv2.imread(
@@ -47,5 +50,10 @@ def demo():
     cv2.destroyAllWindows()
 
 
-# Run the demo
-demo()
+app = Flask(__name__)
+
+
+@app.route('/<name>')
+def index(name):
+    r = requests.get('https://playerdb.co/api/player/minecraft/' + name)
+    return r.text
