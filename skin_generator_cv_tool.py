@@ -32,7 +32,7 @@ def get_skin_features(skin):
 
 def demo():
     # Load the skin
-    skin = cv2.imread('images/8d85e24c1c197407.png', cv2.IMREAD_UNCHANGED)
+    skin = cv2.imread('images/82d7c93df9f767e5.png', cv2.IMREAD_UNCHANGED)
     # Get the player's skin as a guard
     body_guard_skinned = get_guard_for_skin(skin)
     # Get the player's skin as a participant
@@ -49,11 +49,4 @@ def demo():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-
-app = Flask(__name__)
-
-
-@app.route('/<name>')
-def index(name):
-    r = requests.get('https://playerdb.co/api/player/minecraft/' + name)
-    return r.text
+demo()
