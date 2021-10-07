@@ -1,15 +1,14 @@
 import cv2
-import requests
-from flask import Flask
-from markupsafe import escape
 
 # Import some constants
 SKIN_PARTICIPANT = cv2.imread(
     'images/SquidGame_Participant_Classic.png', cv2.IMREAD_UNCHANGED)
 SKIN_GUARD = cv2.imread(
     'images/SquidGame_Guardia_Classic.png', cv2.IMREAD_UNCHANGED)
-SKIN_FEATURES_MASK = cv2.add(cv2.imread(
-    'masks/hand_mask.png', 0), cv2.imread('masks/head_mask.png', 0))
+# Import the body mask with color scale 0 to turn into simple mask
+SKIN_FEATURES_MASK = cv2.imread('masks/full_body_mask.png', 0)
+
+cv2.imwrite('masks/full_body_mask.png', SKIN_FEATURES_MASK)
 
 
 def get_guard_for_skin(skin):
@@ -31,8 +30,11 @@ def get_skin_features(skin):
 
 
 def demo():
+    """
+    This function is used to test the skin generator. It opens a GUI with the skin item data that will get pasted in the other two skins.
+    """
     # Load the skin
-    skin = cv2.imread('images/82d7c93df9f767e5.png', cv2.IMREAD_UNCHANGED)
+    skin = cv2.imread('images/b67edaf8bfe6df63.png', cv2.IMREAD_UNCHANGED)
     # Get the player's skin as a guard
     body_guard_skinned = get_guard_for_skin(skin)
     # Get the player's skin as a participant
@@ -48,5 +50,3 @@ def demo():
     # Exit
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-
-demo()
