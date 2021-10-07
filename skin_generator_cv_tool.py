@@ -8,8 +8,6 @@ SKIN_GUARD = cv2.imread(
 # Import the body mask with color scale 0 to turn into simple mask
 SKIN_FEATURES_MASK = cv2.imread('masks/full_body_mask.png', 0)
 
-cv2.imwrite('masks/full_body_mask.png', SKIN_FEATURES_MASK)
-
 
 def get_guard_for_skin(skin):
     # Get the relevant skin features
