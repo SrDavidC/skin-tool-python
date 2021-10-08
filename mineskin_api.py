@@ -70,8 +70,10 @@ def upload_skin(username):
     payload = {}
 
     # Send the request
+    time.sleep(5)
     r = rq.post(GENERATE_UPLOAD, data=payload, files={
                 "file": open(guard_file_name, 'rb')}, headers=headers)
+    time.sleep(5)
     r2 = rq.post(GENERATE_UPLOAD, data=payload, files={
         "file": open(participant_file_name, 'rb')}, headers=headers)
     # Return the response
