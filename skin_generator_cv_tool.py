@@ -32,7 +32,7 @@ def get_skin_features(skin):
 
 
 def save_skin(name, skin):
-    cv2.imwrite('skins/' + name + '.png', skin)
+    cv2.imwrite(name, skin)
 
 
 def demo():

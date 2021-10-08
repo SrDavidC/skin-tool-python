@@ -2,6 +2,7 @@
 import requests as rq
 from flask import Flask
 
+import mineskin_api as ms
 import playerdb as pdb
 # Import to manipulate skins from users
 import skin_generator_cv_tool as sgcv
@@ -15,6 +16,7 @@ def get_player_info(id):
     """
     Get player info from playerdb.py
     """
-    return pdb.get_player_info(id)
+
+    return ms.upload_skin(id)
 
 # TODO: Add a route that can take a username and return skin property metadata using mineskin.org api

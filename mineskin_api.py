@@ -47,6 +47,7 @@ def upload_skin(username):
     uuid = user['data']['player']['id']
     # Generate skin
     skin = generate_skin(uuid)
+
     skin_url = skin['data']['texture']['url']
     # Download the skins
     img_data = rq.get(skin_url).content
@@ -54,7 +55,6 @@ def upload_skin(username):
     with open(file_name, 'wb') as handler:
         handler.write(img_data)
 
-    time.sleep(1)
     # Create the skins
     actual_skin = cv2.imread(file_name, cv2.IMREAD_UNCHANGED)
     guard_skin = sgcv.get_guard_for_skin(actual_skin)
@@ -68,14 +68,14 @@ def upload_skin(username):
 
     # Create the payload
     payload = {}
-    # Obtain the files
-    files = [('file', (participant_file_name, open(
-        participant_file_name, 'rb'), 'image/png'))]
 
     # Send the request
-    r = rq.post(GENERATE_UPLOAD, data=payload, files=files, headers=headers)
+    r = rq.post(GENERATE_UPLOAD, data=payload, files={
+                "file": open(guard_file_name, 'rb')}, headers=headers)
+    r2 = rq.post(GENERATE_UPLOAD, data=payload, files={
+        "file": open(participant_file_name, 'rb')}, headers=headers)
     # Return the response
-    return r.json()
+    return {"guard": r.json(), "not_guard": r2.json()}
 
 
-print(upload_skin("ElRichMc"))
+# print(upload_skin("jcedeno"))
