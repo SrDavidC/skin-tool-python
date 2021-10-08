@@ -9,6 +9,10 @@ SKIN_GUARD = cv2.imread(
 SKIN_FEATURES_MASK = cv2.imread('masks/full_body_mask.png', 0)
 
 
+def get_saved_skin(name):
+    return cv2.imread(name, cv2.IMREAD_UNCHANGED)
+
+
 def get_guard_for_skin(skin):
     # Get the relevant skin features
     features = get_skin_features(skin)
@@ -25,6 +29,10 @@ def get_participant_for_skin(skin):
 
 def get_skin_features(skin):
     return cv2.bitwise_and(skin, skin, mask=SKIN_FEATURES_MASK)
+
+
+def save_skin(name, skin):
+    cv2.imwrite('skins/' + name + '.png', skin)
 
 
 def demo():
