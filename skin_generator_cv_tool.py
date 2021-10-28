@@ -5,6 +5,8 @@ SKIN_PARTICIPANT = cv2.imread(
     'images/SquidGame_Participant_Classic.png', cv2.IMREAD_UNCHANGED)
 SKIN_GUARD = cv2.imread(
     'images/SquidGame_Guardia_Classic.png', cv2.IMREAD_UNCHANGED)
+SKIN_HOODIE = cv2.imread(
+    'images/SquidGame_Guardia_Classic.png', cv2.IMREAD_UNCHANGED)
 # Import the body mask with color scale 0 to turn into simple mask
 SKIN_FEATURES_MASK = cv2.imread('masks/full_body_mask.png', 0)
 
@@ -21,6 +23,12 @@ def get_guard_for_skin(skin):
 
 
 def get_participant_for_skin(skin):
+    # Get the relevant skin features
+    features = get_skin_features(skin)
+    # Add it to the participant skin
+    return cv2.add(SKIN_PARTICIPANT, features)
+
+def get_hoodie_for_skin(skin):
     # Get the relevant skin features
     features = get_skin_features(skin)
     # Add it to the participant skin
