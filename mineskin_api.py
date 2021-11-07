@@ -13,13 +13,11 @@ API_KEY = os.environ.get('MINESKIN_API_KEY')
 API_SECRET = os.environ.get('MINESKIN_API_SECRET')
 # Some Constants
 API_URL = "https://api.mineskin.org/"
-GENERATE_UPLOAD = API_URL+'generate/upload/?key={}'.format(API_KEY)
-GENERATE_USER = API_URL+'generate/user/?key={}'.format(API_KEY)
+GENERATE_UPLOAD = API_URL + 'generate/upload/?key={}'.format(API_KEY)
+GENERATE_USER = API_URL + 'generate/user/?key={}'.format(API_KEY)
 
 # Headers for the requests
-headers = {
-    'Authorization': 'Bearer {}'.format(API_SECRET)
-}
+headers = {'Authorization': 'Bearer {}'.format(API_SECRET)}
 
 
 def generate_skin(uuid):
@@ -71,11 +69,15 @@ def upload_skin(username):
 
     # Send the request
     time.sleep(5)
-    r = rq.post(GENERATE_UPLOAD, data=payload, files={
-                "file": open(guard_file_name, 'rb')}, headers=headers)
+    r = rq.post(GENERATE_UPLOAD,
+                data=payload,
+                files={"file": open(guard_file_name, 'rb')},
+                headers=headers)
     time.sleep(5)
-    r2 = rq.post(GENERATE_UPLOAD, data=payload, files={
-        "file": open(participant_file_name, 'rb')}, headers=headers)
+    r2 = rq.post(GENERATE_UPLOAD,
+                 data=payload,
+                 files={"file": open(participant_file_name, 'rb')},
+                 headers=headers)
     # Return the response
     return {"guard": r.json(), "not_guard": r2.json()}
 

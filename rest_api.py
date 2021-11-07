@@ -18,6 +18,7 @@ def get_player_info(id):
     """
     Get player info from playerdb.py
     """
+    print("not")
 
     if id in dict:
         return dict[id]
