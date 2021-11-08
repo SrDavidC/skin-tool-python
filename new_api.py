@@ -53,7 +53,7 @@ def get_player_data(player_id):
         resp = urllib.urlopen(skin_url)
         # Decode image into numpy array for opencv
         image = np.asarray(bytearray(resp.read()), dtype="uint8")
-        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        image = cv2.imdecode(image, cv2.IMREAD_UNCHANGED)
 
         # Get dimensions to determine if  format of skin (64x32) or (64x64)
         height, _, _ = image.shape
@@ -71,9 +71,19 @@ def get_player_data(player_id):
             # Store the file location to use for skin transformations
             converted = 'temp/{}_converted.png'.format(player_id)
 
-            image = cv2.imread(converted)
+            image = cv2.imread(converted, cv2.IMREAD_UNCHANGED)
         # Return duple of skin image and wether it is slim texture or not
         return image, slim
+
+
+def generate_player_skins(player_id):
+    image, isSlim = get_player_data(player_id)
+    # If it's slim, use the slim skin
+    if isSlim:
+        # Generate all skins as slim
+        print('test')
+
+    return true
 
 
 def magickFunction(fileName):
@@ -85,4 +95,4 @@ def deleteFile(fileName):
     subprocess.call(['rm', fileName])
 
 
-get_player_data('ElRichMC')
+get_player_data('dedreviil')
