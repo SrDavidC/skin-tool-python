@@ -11,6 +11,6 @@ app = Flask(__name__)
 @app.route('/<id>')
 def get_player_info(id):
     """
-    Get player info from playerdb.py
+    Get all the data from our utility functions from new_api
     """
     return np.generate_player_skins(id)

@@ -117,10 +117,13 @@ def generate_player_skins(player_id):
                    cv2.IMREAD_UNCHANGED))
     # Encode all skins to base64 and put in dict to return as json
     dict = {
-        'guard': encode_skin_base64(guard),
-        'participant': encode_skin_base64(participant),
-        'civilian': encode_skin_base64(civilian),
-        'tux': encode_skin_base64(tux)
+        'slim': isSlim,
+        'data': {
+            'guard': encode_skin_base64(guard),
+            'participant': encode_skin_base64(participant),
+            'civilian': encode_skin_base64(civilian),
+            'tux': encode_skin_base64(tux)
+        }
     }
 
     return dict
