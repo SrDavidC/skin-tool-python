@@ -32,7 +32,7 @@ CIVIL_SKIN = SkinMask(skin='nSkins/SquidGame_Civil_Classic.png',
 
 def get_player_data(player_id):
     """
-    Get player data from Ashcon API.
+    Get player's skin data from Ashcon API. It also converts old skin formats to new ones automagickally.
     """
     # Format the url to query the skin
     url = ASHCON_APP.format(player_id)
@@ -56,7 +56,7 @@ def get_player_data(player_id):
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
         # Get dimensions to determine if  format of skin (64x32) or (64x64)
-        height, width, _ = image.shape
+        height, _, _ = image.shape
 
         # If height is 32, then old format
         if height == 32:
@@ -71,16 +71,14 @@ def get_player_data(player_id):
             # Store the file location to use for skin transformations
             converted = 'temp/{}_converted.png'.format(player_id)
 
-        else:
-            print('New format')
-
+            image = cv2.imread(converted)
         # Return duple of skin image and wether it is slim texture or not
         return image, slim
 
 
 def magickFunction(fileName):
     """ Calls a bash script operation that uses magick to convert a given skin file from 64x32 to 64x64 """
-    subprocess.call(['bash', 'script', fileName])
+    subprocess.call(['bash', 'magickTransformer.sh', fileName])
 
 
 def deleteFile(fileName):

@@ -4,6 +4,7 @@ INPUT=$1
 OUTPUT=$(echo $INPUT | sed 's/\(.*\)\..*/\1/')
 OUTPUT+="_converted.png"
 
+# Uses ImageMagick to convert the input file
 convert $INPUT -background transparent -extent 64x64 \
     \( $INPUT -crop 4x4+4+16 -flop \) -geometry +20+48 -composite \
     \( $INPUT -crop 4x4+8+16 -flop \) -geometry +24+48 -composite \
