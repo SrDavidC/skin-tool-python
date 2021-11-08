@@ -10,6 +10,7 @@ WORKDIR /install
 
 COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
+RUN apt install imagemagick -y
 
 ADD nSkins /install/nSkins 
 COPY SkinMask.py /install/SkinMask.py
