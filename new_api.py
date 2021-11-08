@@ -76,14 +76,54 @@ def get_player_data(player_id):
         return image, slim
 
 
+def apply_mask_to_skin(skin, mask):
+    """ Apply a mask and perform a bitwise_and operation """
+    return cv2.bitwise_and(skin, skin, mask=mask)
+
+
 def generate_player_skins(player_id):
     image, isSlim = get_player_data(player_id)
     # If it's slim, use the slim skin
-    if isSlim:
-        # Generate all skins as slim
-        print('test')
+    mask = cv2.imread(
+        CIVIL_SKIN.skin_slim_mask if isSlim else CIVIL_SKIN.skin_mask, 0)
+    # Get the features to use with Civilian, Participant, and Guard skins
+    features = apply_mask_to_skin(image, mask)
 
-    return true
+    # Get mask and features for tuxedo skin
+    tuxMask = cv2.imread(
+        TUXEDO_SKIN.skin_slim_mask if isSlim else TUXEDO_SKIN.skin_mask, 0)
+    tuxFeatures = apply_mask_to_skin(image, tuxMask)
+
+    cv2.imshow('base skin', features)
+
+    cv2.imshow(
+        'guard',
+        cv2.add(
+            features,
+            cv2.imread(GUARD_SKIN.skin_slim if isSlim else GUARD_SKIN.skin,
+                       cv2.IMREAD_UNCHANGED)))
+    cv2.imshow(
+        'participant',
+        cv2.add(
+            features,
+            cv2.imread(
+                PARTICIPANT_SKIN.skin_slim
+                if isSlim else PARTICIPANT_SKIN.skin, cv2.IMREAD_UNCHANGED)))
+    cv2.imshow(
+        'civil',
+        cv2.add(
+            features,
+            cv2.imread(CIVIL_SKIN.skin_slim if isSlim else CIVIL_SKIN.skin,
+                       cv2.IMREAD_UNCHANGED)))
+
+    cv2.imshow(
+        'tux',
+        cv2.add(
+            tuxFeatures,
+            cv2.imread(TUXEDO_SKIN.skin_slim if isSlim else TUXEDO_SKIN.skin,
+                       cv2.IMREAD_UNCHANGED)))
+
+    cv2.waitKey(0)
 
 
 def magickFunction(fileName):
@@ -95,4 +135,4 @@ def deleteFile(fileName):
     subprocess.call(['rm', fileName])
 
 
-get_player_data('dedreviil')
+generate_player_skins('jcedeno')
