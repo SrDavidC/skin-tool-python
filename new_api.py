@@ -1,3 +1,4 @@
+import base64
 import subprocess
 import urllib.request as urllib
 
@@ -82,6 +83,7 @@ def apply_mask_to_skin(skin, mask):
 
 
 def generate_player_skins(player_id):
+    """ Generate all skins for a player and returns them in a dict encoded in base64. """
     image, isSlim = get_player_data(player_id)
     # If it's slim, use the slim skin
     mask = cv2.imread(
@@ -94,36 +96,39 @@ def generate_player_skins(player_id):
         TUXEDO_SKIN.skin_slim_mask if isSlim else TUXEDO_SKIN.skin_mask, 0)
     tuxFeatures = apply_mask_to_skin(image, tuxMask)
 
-    cv2.imshow('base skin', features)
+    # Create all the skins.
+    guard = cv2.add(
+        features,
+        cv2.imread(GUARD_SKIN.skin_slim if isSlim else GUARD_SKIN.skin,
+                   cv2.IMREAD_UNCHANGED))
+    participant = cv2.add(
+        features,
+        cv2.imread(
+            PARTICIPANT_SKIN.skin_slim if isSlim else PARTICIPANT_SKIN.skin,
+            cv2.IMREAD_UNCHANGED))
+    civilian = cv2.add(
+        features,
+        cv2.imread(CIVIL_SKIN.skin_slim if isSlim else CIVIL_SKIN.skin,
+                   cv2.IMREAD_UNCHANGED))
 
-    cv2.imshow(
-        'guard',
-        cv2.add(
-            features,
-            cv2.imread(GUARD_SKIN.skin_slim if isSlim else GUARD_SKIN.skin,
-                       cv2.IMREAD_UNCHANGED)))
-    cv2.imshow(
-        'participant',
-        cv2.add(
-            features,
-            cv2.imread(
-                PARTICIPANT_SKIN.skin_slim
-                if isSlim else PARTICIPANT_SKIN.skin, cv2.IMREAD_UNCHANGED)))
-    cv2.imshow(
-        'civil',
-        cv2.add(
-            features,
-            cv2.imread(CIVIL_SKIN.skin_slim if isSlim else CIVIL_SKIN.skin,
-                       cv2.IMREAD_UNCHANGED)))
+    tux = cv2.add(
+        tuxFeatures,
+        cv2.imread(TUXEDO_SKIN.skin_slim if isSlim else TUXEDO_SKIN.skin,
+                   cv2.IMREAD_UNCHANGED))
+    # Encode all skins to base64 and put in dict to return as json
+    dict = {
+        'guard': encode_skin_base64(guard),
+        'participant': encode_skin_base64(participant),
+        'civilian': encode_skin_base64(civilian),
+        'tux': encode_skin_base64(tux)
+    }
 
-    cv2.imshow(
-        'tux',
-        cv2.add(
-            tuxFeatures,
-            cv2.imread(TUXEDO_SKIN.skin_slim if isSlim else TUXEDO_SKIN.skin,
-                       cv2.IMREAD_UNCHANGED)))
+    return dict
 
-    cv2.waitKey(0)
+
+def encode_skin_base64(skin):
+    """ Encode a skin into base64 """
+    return base64.b64encode(cv2.imencode('.png', skin)[1]).decode('utf-8')
 
 
 def magickFunction(fileName):
@@ -133,6 +138,3 @@ def magickFunction(fileName):
 
 def deleteFile(fileName):
     subprocess.call(['rm', fileName])
-
-
-generate_player_skins('jcedeno')
