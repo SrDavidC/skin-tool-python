@@ -6,4 +6,4 @@ NAME=skin_tool
 PORT=8069
 
 # run the container
-docker run -it -d --name $NAME -p $PORT:5000 jcedeno/skin-tool-opencv:latest
+docker run -it -d --name $NAME -p $PORT:5000 jcedeno/skin-tool-python:latest
