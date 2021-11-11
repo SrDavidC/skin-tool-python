@@ -1,2 +1,4 @@
 #!/bin/bash
-docker build -t skin_tool_opencv:latest .
+
+# build the container image based on the src
+docker build -t jcedeno/skin-tool-python:latest .
