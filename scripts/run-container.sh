@@ -6,5 +6,5 @@ NAME=skin_tool_py
 PORT=8069
 
 # run the container
-docker rm $NAME && docker stop $NAME
+docker stop $NAME && docker rm $NAME
 docker run -it -d --name $NAME -p $PORT:5000 jcedeno/skin-tool-python:latest
