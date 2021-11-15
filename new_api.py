@@ -27,9 +27,9 @@ PARTICIPANT_SKIN = SkinMask(
     skin_slim='nSkins/SquidGame_Participant_Slim.png',
     skin_slim_mask='nSkins/SquidGame_Mask_Participant_Slim.png')
 CIVIL_SKIN = SkinMask(skin='nSkins/SquidGame_Civil_Classic.png',
-                      skin_mask='nSkins/SquidGame_Mask_Classic.png',
+                      skin_mask='nSkins/SquidGame_Mask_Civil_Classic.png',
                       skin_slim='nSkins/SquidGame_Civil_Slim.png',
-                      skin_slim_mask='nSkins/SquidGame_Mask_Slim.png')
+                      skin_slim_mask='nSkins/SquidGame_Mask_Civil_Slim.png')
 
 
 def get_player_data(player_id):
