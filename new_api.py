@@ -21,10 +21,11 @@ GUARD_SKIN = SkinMask(skin='nSkins/SquidGame_Guardia_Classic.png',
                       skin_mask='nSkins/SquidGame_Mask_Guardia_Classic.png',
                       skin_slim='nSkins/SquidGame_Guardia_Slim.png',
                       skin_slim_mask='nSkins/SquidGame_Mask_Guardia_Slim.png')
-PARTICIPANT_SKIN = SkinMask(skin='nSkins/SquidGame_Participant_Classic.png',
-                            skin_mask='nSkins/SquidGame_Mask_Participant_Classic.png',
-                            skin_slim='nSkins/SquidGame_Participant_Slim.png',
-                            skin_slim_mask='nSkins/SquidGame_Mask_Participant_Slim.png')
+PARTICIPANT_SKIN = SkinMask(
+    skin='nSkins/SquidGame_Participant_Classic.png',
+    skin_mask='nSkins/SquidGame_Mask_Participant_Classic.png',
+    skin_slim='nSkins/SquidGame_Participant_Slim.png',
+    skin_slim_mask='nSkins/SquidGame_Mask_Participant_Slim.png')
 CIVIL_SKIN = SkinMask(skin='nSkins/SquidGame_Civil_Classic.png',
                       skin_mask='nSkins/SquidGame_Mask_Classic.png',
                       skin_slim='nSkins/SquidGame_Civil_Slim.png',
@@ -86,11 +87,20 @@ def generate_player_skins(player_id):
     """ Generate all skins for a player and returns them in a dict encoded in base64. """
     image, isSlim = get_player_data(player_id)
     # If it's slim, use the slim skin
-    mask = cv2.imread(
-        CIVIL_SKIN.skin_slim_mask if isSlim else CIVIL_SKIN.skin_mask, 0)
     # Get the features to use with Civilian, Participant, and Guard skins
-    features = apply_mask_to_skin(image, mask)
-
+    guard_features = apply_mask_to_skin(
+        image,
+        cv2.imread(
+            CIVIL_SKIN.skin_slim_mask if isSlim else CIVIL_SKIN.skin_mask, 0))
+    participant_features = apply_mask_to_skin(
+        image,
+        cv2.imread(
+            PARTICIPANT_SKIN.skin_slim_mask
+            if isSlim else PARTICIPANT_SKIN.skin_mask, 0))
+    civilian_features = apply_mask_to_skin(
+        image,
+        cv2.imread(
+            CIVIL_SKIN.skin_slim_mask if isSlim else CIVIL_SKIN.skin_mask, 0))
     # Get mask and features for tuxedo skin
     tuxMask = cv2.imread(
         TUXEDO_SKIN.skin_slim_mask if isSlim else TUXEDO_SKIN.skin_mask, 0)
@@ -98,16 +108,16 @@ def generate_player_skins(player_id):
 
     # Create all the skins.
     guard = cv2.add(
-        features,
+        guard_features,
         cv2.imread(GUARD_SKIN.skin_slim if isSlim else GUARD_SKIN.skin,
                    cv2.IMREAD_UNCHANGED))
     participant = cv2.add(
-        features,
+        participant_features,
         cv2.imread(
             PARTICIPANT_SKIN.skin_slim if isSlim else PARTICIPANT_SKIN.skin,
             cv2.IMREAD_UNCHANGED))
     civilian = cv2.add(
-        features,
+        civilian_features,
         cv2.imread(CIVIL_SKIN.skin_slim if isSlim else CIVIL_SKIN.skin,
                    cv2.IMREAD_UNCHANGED))
 
