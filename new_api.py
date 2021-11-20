@@ -91,7 +91,7 @@ def generate_player_skins(player_id):
     guard_features = apply_mask_to_skin(
         image,
         cv2.imread(
-            CIVIL_SKIN.skin_slim_mask if isSlim else CIVIL_SKIN.skin_mask, 0))
+            GUARD_SKIN.skin_slim_mask if isSlim else GUARD_SKIN.skin_mask, 0))
     participant_features = apply_mask_to_skin(
         image,
         cv2.imread(
