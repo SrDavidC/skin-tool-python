@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Rebuilding the container."
+
+./scripts/build-container.sh && ./scripts/run-container.sh
