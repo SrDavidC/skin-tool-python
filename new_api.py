@@ -30,6 +30,10 @@ CIVIL_SKIN = SkinMask(skin='nSkins/SquidGame_Civil_Classic.png',
                       skin_mask='nSkins/SquidGame_Mask_Civil_Classic.png',
                       skin_slim='nSkins/SquidGame_Civil_Slim.png',
                       skin_slim_mask='nSkins/SquidGame_Mask_Civil_Slim.png')
+TEST_SKIN = SkinMask(skin='nSkins/TestSkinHoyoClassic.png',
+                      skin_mask='nSkins/SquidGame_Mask_Civil_Classic.png',
+                      skin_slim='nSkins/TestSkinHoyoSlim.png',
+                      skin_slim_mask='nSkins/SquidGame_Mask_Civil_Slim.png')
 
 
 def get_player_data(player_id):
@@ -95,12 +99,17 @@ def generate_player_skins(player_id):
     participant_features = apply_mask_to_skin(
         image,
         cv2.imread(
-            PARTICIPANT_SKIN.skin_slim_mask
-            if isSlim else PARTICIPANT_SKIN.skin_mask, 0))
+            PARTICIPANT_SKIN.skin_slim_mask if isSlim else PARTICIPANT_SKIN.skin_mask, 0))
     civilian_features = apply_mask_to_skin(
         image,
         cv2.imread(
             CIVIL_SKIN.skin_slim_mask if isSlim else CIVIL_SKIN.skin_mask, 0))
+    # Start testing skin
+    test_features = apply_mask_to_skin(
+        image,
+        cv2.imread(
+            TEST_SKIN.skin_slim_mask if isSlim else TEST_SKIN.skin_mask, 0))
+    
     # Get mask and features for tuxedo skin
     tuxMask = cv2.imread(
         TUXEDO_SKIN.skin_slim_mask if isSlim else TUXEDO_SKIN.skin_mask, 0)
@@ -125,6 +134,11 @@ def generate_player_skins(player_id):
         tuxFeatures,
         cv2.imread(TUXEDO_SKIN.skin_slim if isSlim else TUXEDO_SKIN.skin,
                    cv2.IMREAD_UNCHANGED))
+    # Testing skin
+    test = cv2.add(
+        test_features,
+        cv2.imread(TEST_SKIN.skin_slim if isSlim else TEST_SKIN.skin,
+                   cv2.IMREAD_UNCHANGED))
     # Encode all skins to base64 and put in dict to return as json
     dict = {
         'slim': isSlim,
@@ -132,7 +146,8 @@ def generate_player_skins(player_id):
             'guard': encode_skin_base64(guard),
             'participant': encode_skin_base64(participant),
             'civilian': encode_skin_base64(civilian),
-            'tux': encode_skin_base64(tux)
+            'tux': encode_skin_base64(tux),
+            'test': encode_skin_base64(test)
         }
     }
 
