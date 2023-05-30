@@ -92,17 +92,17 @@ def generate_player_skins(player_id):
     image, isSlim = get_player_data(player_id)
     # If it's slim, use the slim skin
     # Get the features to use with Civilian, Participant, and Guard skins
-    """
+    
     guard_features = apply_mask_to_skin(
         image,
         cv2.imread(
             GUARD_SKIN.skin_slim_mask if isSlim else GUARD_SKIN.skin_mask, 0))
-            """
+            
     participant_features = apply_mask_to_skin(
         image,
         cv2.imread(
             PARTICIPANT_SKIN.skin_slim_mask if isSlim else PARTICIPANT_SKIN.skin_mask, 0))
-    """
+    
     civilian_features = apply_mask_to_skin(
         image,
         cv2.imread(
@@ -123,13 +123,13 @@ def generate_player_skins(player_id):
         guard_features,
         cv2.imread(GUARD_SKIN.skin_slim if isSlim else GUARD_SKIN.skin,
                    cv2.IMREAD_UNCHANGED))
-                   """
+                   
     participant = cv2.add(
         participant_features,
         cv2.imread(
             PARTICIPANT_SKIN.skin_slim if isSlim else PARTICIPANT_SKIN.skin,
             cv2.IMREAD_UNCHANGED))
-    """
+    
     civilian = cv2.add(
         civilian_features,
         cv2.imread(CIVIL_SKIN.skin_slim if isSlim else CIVIL_SKIN.skin,
@@ -144,7 +144,7 @@ def generate_player_skins(player_id):
         test_features,
         cv2.imread(TEST_SKIN.skin_slim if isSlim else TEST_SKIN.skin,
                    cv2.IMREAD_UNCHANGED))
-                   """
+                   
     # Encode all skins to base64 and put in dict to return as json
     dict = {
         'slim': isSlim,
